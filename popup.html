@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Highlight Reader</title>
+	<script src="jquery-3.5.1.min.js"></script>
+	<script src="popup.js"></script>
+</head>
+<body>
+	<h2>Higlight Reader</h2>
+	<div class="slidecontainer">
+		<input type="range" min="0" max="40" value="10" class="slider" id="rateSlider">
+		<p style="overflow:hidden;">Speaking Rate: <span id="rateValue"></span></p>
+	</div>
+	<div class="slidecontainer">
+		<input type="range" min="0" max="20" value="10" class="slider" id="pitchSlider">
+		<p>Pitch: <span id="pitchValue"></span></p>
+	</div>
+	<select id="voiceDropdown"></select>
+</body>
+</html>
