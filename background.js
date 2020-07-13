@@ -1,3 +1,4 @@
+// Set up context menu items
 var startSpeakingItem = {
 	"id": "start-speaking",
 	"title": "Start speaking",
@@ -13,6 +14,7 @@ var stopSpeakingItem = {
 chrome.contextMenus.create(startSpeakingItem);
 chrome.contextMenus.create(stopSpeakingItem);
 
+// Read function
 function read(selectionText) {
 	// Rate
 	chrome.storage.sync.get(['rate', 'voiceName', 'lang', 'pitch'], function(result) {
@@ -49,22 +51,27 @@ function read(selectionText) {
 	});
 }
 
-
+// Context menu speaking implementation
 chrome.contextMenus.onClicked.addListener(function(clickData) {
 	if (clickData.menuItemId == "start-speaking") {
 		read(clickData.selectionText);
 	}
 	else if (clickData.menuItemId == "stop-speaking") {
 		chrome.tts.stop();
-		chrome.tts.getVoices(
-			function(voices) {
-			  for (var i = 0; i < voices.length; i++) {
-				console.log('Voice ' + i + ':');
-				console.log('  name: ' + voices[i].voiceName);
-				console.log('  lang: ' + voices[i].lang);
-				console.log('  extension id: ' + voices[i].extensionId);
-				console.log('  event types: ' + voices[i].eventTypes);
-			  }
-			});
 	}
 });
+
+// Keyboard command speaking implementation
+chrome.commands.onCommand.addListener(function(command) {
+	chrome.tabs.executeScript( {
+		code: "window.getSelection().toString();"
+	}, function(selection) {
+		chrome.tts.isSpeaking(function(speaking) {
+			if (speaking) {
+				chrome.tts.stop();
+			} else {
+				read(selection[0]);
+			}
+		});
+	});
+  });

@@ -1,3 +1,7 @@
+function oneDecimalPlace(x) {
+    return Number.parseFloat(x).toFixed(1);
+}
+
 function getVoiceLang(voice) {
     chrome.tts.getVoices(
         function(voices) {
@@ -41,7 +45,7 @@ $(document).ready(function(){
     chrome.storage.sync.get('rate', function(result) {
 		if (result.rate) {
             rateSlider.value = result.rate * 10;
-            rateValue.innerHTML = result.rate;
+            rateValue.innerHTML = oneDecimalPlace(result.rate);
         }
     });
     
@@ -50,20 +54,20 @@ $(document).ready(function(){
     chrome.storage.sync.get('pitch', function(result) {
 		if (result.pitch) {
             pitchSlider.value = result.pitch * 10;
-            pitchValue.innerHTML = result.pitch;
+            pitchValue.innerHTML = oneDecimalPlace(result.pitch);
         }
 	});
 
     // Store rate value from rate slider, apply to rate value text
     rateSlider.oninput = function() {
         var rate = 1/10 * this.value;
-        rateValue.innerHTML = rate;
+        rateValue.innerHTML = oneDecimalPlace(rate);
         chrome.storage.sync.set({"rate": rate});
     }
 
     pitchSlider.oninput = function() {
         var pitch = 1/10 * this.value;
-        pitchValue.innerHTML = pitch;
+        pitchValue.innerHTML = oneDecimalPlace(pitch);
         chrome.storage.sync.set({"pitch": pitch});
     }
 

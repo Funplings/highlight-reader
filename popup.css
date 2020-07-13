@@ -1,0 +1,11 @@
+.slider-container {
+    display: flex;
+}
+
+.value-slider {
+    flex: 2;
+}
+
+.value-text {
+    flex: 1;
+}
